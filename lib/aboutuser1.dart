@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart'; // Import google_fonts
-import 'homescreen.dart'; // Import the homepage.dart file
 import 'userpass.dart';
-
-abstract class about1 extends StatefulWidget {
-  const about1({super.key});
-
-  get _selectedIndex => null;
-
-  get _onItemTapped => null;
-
+import 'aboutuser2.dart';
+class About1 extends StatelessWidget {
+  const About1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,44 +11,147 @@ abstract class about1 extends StatefulWidget {
       backgroundColor: const Color(0xFF007AFF),
       body: Stack(
         children: [
-          // Centered "User Profile!" title
           Positioned(
-            top: 125, // Adjust this value to position "User Profile!" correctly
+            top: 125,
             left: 0,
             right: 0,
-            child: Center(
-              child: Text(
-                'User Settings!',
-                style: GoogleFonts.poppins(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          // White card background
-          Positioned(
-            top: 200, // Adjust top position of the white container
-            left: 0,
-            right: 0,
-            bottom: 0, // Extend to the bottom
+            bottom: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(34)), // Rounded top only
+                borderRadius: BorderRadius.vertical(top: Radius.circular(34)),
               ),
               child: SafeArea(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30), // Top padding inside the container
-                    const SizedBox(height: 50), // Space for content
-                    const Spacer(), // Push the bottom navigation bar to the bottom
-                    _BottomNavigationBar(
-                      selectedIndex: _selectedIndex,
-                      onItemTapped: _onItemTapped,
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Welcome User!',
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Tell us a little about yourself',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Action for "I have speech impairment"
+                            print('Speech Impairment selected');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const About2()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(color: Color(0xFFE0E0E0)), // Light grey border
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'I have hearing impairment',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Icon(Icons.arrow_forward_ios, size: 20),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Action for "I have speech impairment"
+                            print('Speech Impairment selected');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const About2()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(color: Color(0xFFE0E0E0)), // Light grey border
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'I have speech impairment',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.grey),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Action for "I can speak and hear"
+                            print('Can speak and hear selected');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const About2()),
+                            );                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(color: Color(0xFFE0E0E0)), // Light grey border
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'I can speak and hear',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.grey),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -62,42 +159,5 @@ abstract class about1 extends StatefulWidget {
         ],
       ),
     );
-  }
-}
-
-class _BottomNavigationBar extends StatelessWidget {
-  final int selectedIndex;
-  final ValueChanged<int> onItemTapped;
-
-  const _BottomNavigationBar({
-    required this.selectedIndex,
-    required this.onItemTapped,
-  });
-
-
-
-  Widget _buildIconButton(IconData icon, int index, bool isSelected, BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        icon,
-        color: isSelected ? const Color(0xFF00254C) : const Color(0xFF007AFF),
-      ),
-      onPressed: () {
-        onItemTapped(index);
-        if (index == 0) {
-          // Navigate to Home Page
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-        }
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
   }
 }
