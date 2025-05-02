@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'main.dart';
+import 'aboutuser1.dart'; // Ensure you have a file named about1.dart
 
 class UserPass extends StatelessWidget {
   const UserPass({super.key});
@@ -13,21 +13,6 @@ class UserPass extends StatelessWidget {
         children: [
           Positioned(
             top: 125,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Text(
-                'Hello!',
-                style: GoogleFonts.poppins(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 200,
             left: 0,
             right: 0,
             bottom: 0,
@@ -67,10 +52,10 @@ class UserPass extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            print('Continue button pressed - Navigating to HomePage...');
+                            print('Continue button pressed - Navigating to UserPass...');
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const ()),
+                              MaterialPageRoute(builder: (context) => const About1()),
                             );
                           },
                           child: Text(
