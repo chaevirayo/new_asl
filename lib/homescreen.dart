@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // Import google_fonts
+import 'package:google_fonts/google_fonts.dart';
+import 'lesson.dart'; // Import the lesson screen
 import 'profile.dart'; // Import the profile.dart file
 import 'settings.dart';
+import 'assess.dart'; // Import the assess.dart file
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,23 +18,22 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (index == 1) {
-        // Navigate to Assessment Page (replace with your actual page)
-        Navigator.push(
+      if (index == 0) {
+        // Already on Home Page
+      } else if (index == 1) {
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Placeholder()), // Replace Placeholder
+          MaterialPageRoute(builder: (context) => const LessonScreen()),
         );
       } else if (index == 2) {
-        // Navigate to the UserProfile page
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const UserProfile()),
         );
       } else if (index == 3) {
-        // Navigate to Settings Page (replace with your actual page)
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const UserSettings()), // Replace Placeholder
+          MaterialPageRoute(builder: (context) => const UserSettings()),
         );
       }
     });
@@ -40,18 +41,20 @@ class _HomePageState extends State<HomePage> {
 
   void _handleMenuButtonTap(String buttonText) {
     if (buttonText == 'LESSONS') {
-      _onItemTapped(0); // Mimic home button tap
+      _onItemTapped(1);
     } else if (buttonText == 'ASSESSMENT') {
-      _onItemTapped(1); // Mimic school button tap
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AssessmentScreen()),
+      );
+      print('$buttonText button tapped');
     } else if (buttonText == 'PROFILE') {
-      // Navigate to the profile page
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const UserProfile()),
       );
       print('$buttonText button tapped');
     }
-    // You can add specific navigation or actions for each menu button here
   }
 
   @override
@@ -60,22 +63,21 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color(0xFF007AFF),
       body: Stack(
         children: [
-          // White card background
           Positioned(
-            top: 200, // Adjust top position of the white container
+            top: 200,
             left: 0,
             right: 0,
-            bottom: 0, // Extend to the bottom
+            bottom: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(34)), // Rounded top only
+                borderRadius: BorderRadius.vertical(top: Radius.circular(34)),
               ),
               child: SafeArea(
                 child: Column(
                   children: [
-                    const SizedBox(height: 30), // Top padding inside the container
-                    const SizedBox(height: 50), // Space for the welcome text
+                    const SizedBox(height: 30),
+                    const SizedBox(height: 50),
                     TappableMenuButton(
                       text: 'LESSONS',
                       onPressed: () => _handleMenuButtonTap('LESSONS'),
@@ -90,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                       text: 'PROFILE',
                       onPressed: () => _handleMenuButtonTap('PROFILE'),
                     ),
-                    const Spacer(), // Push the bottom navigation bar to the bottom
+                    const Spacer(),
                     _BottomNavigationBar(
                       selectedIndex: _selectedIndex,
                       onItemTapped: _onItemTapped,
@@ -100,9 +102,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // Welcome text positioned above the white container
           Positioned(
-            top: 100, // Adjust this value to position the text correctly
+            top: 100,
             left: 24,
             right: 24,
             child: Text.rich(
@@ -146,31 +147,26 @@ class _BottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 10),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5F2FF),
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildIconButton(Icons.home, 0, selectedIndex == 0),
-              _buildIconButton(Icons.school, 1, selectedIndex == 1),
-              _buildIconButton(Icons.person, 2, selectedIndex == 2),
-              _buildIconButton(Icons.settings, 3, selectedIndex == 3),
-            ],
-          ),
-        ),
-      ],
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE5F2FF),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildIconButton(Icons.home, 0, selectedIndex == 0, context),
+          _buildIconButton(Icons.school, 1, selectedIndex == 1, context),
+          _buildIconButton(Icons.person, 2, selectedIndex == 2, context),
+          _buildIconButton(Icons.settings, 3, selectedIndex == 3, context),
+        ],
+      ),
     );
   }
 
-  Widget _buildIconButton(IconData icon, int index, bool isSelected) {
+  Widget _buildIconButton(IconData icon, int index, bool isSelected, BuildContext context) {
     return IconButton(
       icon: Icon(
         icon,
@@ -194,19 +190,18 @@ class TappableMenuButton extends StatefulWidget {
 class _TappableMenuButtonState extends State<TappableMenuButton> {
   bool _isTapped = false;
 
-  // Define styles as variables
-  TextStyle _buttonTextStyle(bool isTapped) => GoogleFonts.poppins( // Apply Poppins here
-    color: isTapped ? Colors.white : Colors.black,
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-  );
+  TextStyle _buttonTextStyle(bool isTapped) => GoogleFonts.poppins(
+        color: isTapped ? Colors.white : Colors.black,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      );
 
   BoxDecoration _buttonDecoration(bool isTapped) => BoxDecoration(
-    color: isTapped ? const Color(0xFF007AFF) : const Color(0xFFE5F2FF),
-    borderRadius: BorderRadius.circular(30),
-  );
+        color: isTapped ? const Color(0xFF007AFF) : const Color(0xFFE5F2FF),
+        borderRadius: BorderRadius.circular(30),
+      );
 
-  EdgeInsets _buttonPadding = const EdgeInsets.symmetric(horizontal: 36); // Removed vertical padding
+  final EdgeInsets _buttonPadding = const EdgeInsets.symmetric(horizontal: 36);
 
   @override
   Widget build(BuildContext context) {
@@ -216,18 +211,11 @@ class _TappableMenuButtonState extends State<TappableMenuButton> {
         if (widget.onPressed != null) {
           widget.onPressed!();
         }
-        if (widget.text == 'PROFILE') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const UserProfile()),
-          );
-        }
-        // Revert the tapped state after a short delay
         Future.delayed(const Duration(milliseconds: 200), () {
           setState(() => _isTapped = false);
         });
       },
-      child: SizedBox( // Use SizedBox to control the size
+      child: SizedBox(
         width: 250,
         height: 75,
         child: Container(

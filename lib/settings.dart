@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart'; // Import google_fonts
 import 'homescreen.dart'; // Import the homepage.dart file
 import 'profile.dart';
+import 'lesson.dart';
+import 'main.dart'; // Import the main.dart file for the LoginScreen
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
@@ -12,27 +14,36 @@ class UserSettings extends StatefulWidget {
 
 class _UserSettingsState extends State<UserSettings> {
   int _selectedIndex = 3; // Initialize selected index to 3 (SETTINGS)
+  bool _notificationsEnabled = true; // State for notification toggle
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      // Add navigation logic here if you want other icons to navigate away
       if (index == 0) {
-        // Navigate to Home Page
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } else if (index == 1) {
-        // Navigate to Assessment Page
-        Navigator.pop(context); // Example: Go back to the previous page
-      } else if (index == 2) {
-        // Navigate to User Profile Page
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const UserProfile()),
-        );      }
+          context,
+          MaterialPageRoute(builder: (context) => const LessonScreen()),
+        );
+      } else if (index == 2) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const UserProfile()),
+        );
+      }
     });
+  }
+
+  void _logout() {
+    // Navigate back to the Login Screen
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
   }
 
   @override
@@ -41,14 +52,14 @@ class _UserSettingsState extends State<UserSettings> {
       backgroundColor: const Color(0xFF007AFF),
       body: Stack(
         children: [
-          // Centered "User Profile!" title
+          // Title at the top
           Positioned(
-            top: 125, // Adjust this value to position "User Profile!" correctly
+            top: 80, // Adjusted position
             left: 0,
             right: 0,
             child: Center(
               child: Text(
-                'User Settings!',
+                'Settings',
                 style: GoogleFonts.poppins(
                   fontSize: 32,
                   fontWeight: FontWeight.w600,
@@ -57,33 +68,110 @@ class _UserSettingsState extends State<UserSettings> {
               ),
             ),
           ),
-          // White card background
+          // White card container for settings
           Positioned(
-            top: 200, // Adjust top position of the white container
+            top: 150,
             left: 0,
             right: 0,
-            bottom: 0, // Extend to the bottom
+            bottom: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(34)), // Rounded top only
+                borderRadius: BorderRadius.vertical(top: Radius.circular(34)),
               ),
               child: SafeArea(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30), // Top padding inside the container
-                    const SizedBox(height: 50), // Space for content
-                    const Spacer(), // Push the bottom navigation bar to the bottom
-                    _BottomNavigationBar(
-                      selectedIndex: _selectedIndex,
-                      onItemTapped: _onItemTapped,
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 30),
+                      // Notifications setting
+                      _buildSettingsItem(
+                        title: 'Enable Notifications',
+                        icon: Icons.notifications_outlined,
+                        trailing: Switch(
+                          value: _notificationsEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _notificationsEnabled = value;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      // Account preferences
+                      _buildSettingsItem(
+                        title: 'Account Preferences',
+                        icon: Icons.person_outline,
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UserProfile()),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      // Logout button
+                      _buildSettingsItem(
+                        title: 'Logout',
+                        icon: Icons.logout,
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+                        onTap: _logout,
+                      ),
+                      const Spacer(),
+                      // Bottom navigation bar
+                      _BottomNavigationBar(
+                        selectedIndex: _selectedIndex,
+                        onItemTapped: _onItemTapped,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSettingsItem({
+    required String title,
+    required IconData icon,
+    Widget? trailing,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8F8F8),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: const Color(0xFF007AFF)),
+                const SizedBox(width: 16),
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+            trailing ?? const SizedBox(),
+          ],
+        ),
       ),
     );
   }
@@ -100,46 +188,33 @@ class _BottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 10),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5F2FF),
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildIconButton(Icons.home, 0, selectedIndex == 0, context),
-              _buildIconButton(Icons.school, 1, selectedIndex == 1, context),
-              _buildIconButton(Icons.person, 2, selectedIndex == 2, context),
-              _buildIconButton(Icons.settings, 3, selectedIndex == 3, context),
-            ],
-          ),
-        ),
-      ],
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE5F2FF),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildIconButton(Icons.home, 0, selectedIndex == 0, context),
+          _buildIconButton(Icons.school, 1, selectedIndex == 1, context),
+          _buildIconButton(Icons.person, 2, selectedIndex == 2, context),
+          _buildIconButton(Icons.settings, 3, selectedIndex == 3, context),
+        ],
+      ),
     );
   }
 
-  Widget _buildIconButton(IconData icon, int index, bool isSelected, BuildContext context) {
+  Widget _buildIconButton(
+      IconData icon, int index, bool isSelected, BuildContext context) {
     return IconButton(
       icon: Icon(
         icon,
         color: isSelected ? const Color(0xFF00254C) : const Color(0xFF007AFF),
       ),
-      onPressed: () {
-        onItemTapped(index);
-        if (index == 0) {
-          // Navigate to Home Page
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-        }
-      },
+      onPressed: () => onItemTapped(index),
     );
   }
 }

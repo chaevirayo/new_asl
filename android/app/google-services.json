@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "491434680056",
+    "project_id": "asl-learning-app-f38b2",
+    "storage_bucket": "asl-learning-app-f38b2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491434680056:android:33828b2604ac2361c8650d",
+        "android_client_info": {
+          "package_name": "com.example.new_asl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPmlrJ81L9rCZISg96uJCkb4_Ao45oH84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

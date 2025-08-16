@@ -12,17 +12,47 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Add this to use Poppins and other Google Fonts
+  # Google Fonts for custom fonts like Poppins
   google_fonts: ^6.1.0
 
-  # Other dependencies
+  # Provider for state management
+  provider: ^6.0.5
+
+  # Video Player for video playback
+  video_player: ^2.5.1
+
+  # Visibility Detector for lazy loading and visibility detection
+  visibility_detector: ^0.3.3
+
+  # Cupertino Icons for iOS-style icons
   cupertino_icons: ^1.0.2
+
+  # Firebase Core
+  firebase_core: ^2.24.2
+
+  # Firebase Authentication
+  firebase_auth: ^4.15.3
+
+  # Cloud Firestore for user data
+  cloud_firestore: ^4.13.6
+
+  # Shared Preferences for local storage
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # Lints for Flutter to enforce best practices
   flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
+
+  # Add the assets folders for images and videos
+  assets:
+    # Images for the Easy category
+    - assets/images/alphabet/
+
+    # Consolidated videos folder for the Medium and Hard categories
+    - assets/videos/
